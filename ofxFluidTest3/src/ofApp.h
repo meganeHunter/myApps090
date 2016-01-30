@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxFluid.h"
+
 
 class ofApp : public ofBaseApp{
 
@@ -20,5 +22,20 @@ class ofApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+    
+    ofxFluid fluid;
+    
+    ofVec2f oldM;
+    int     width, height;
+    bool    bPaint, bObstacle, bBounding, bClear;
+    
+    int pCount, pTime;
+    float rad, temp, den;
+    bool isDrawS, isPaused;
+    bool isStatA;
+    
+    ofPoint pos;
+    ofPoint dir;
 		
 };
