@@ -12,13 +12,13 @@ void ofApp::setup()
     
     ofSeedRandom();
     
-    rad = 3.24;
-    temp = 1098.0;
-    den = 12.35;
+    rad = 2.19;
+    temp = 108.0;
+    den = 1.35;
     
     pos = ofPoint(width * 0.5, height * 0.99);
     dir = ofPoint(0, -2);
-    grav = ofVec2f(0.0,-0.0098);
+    grav = ofVec2f(0.0,-0.005);
     
     isDrawS = true;
     isPaused = false;
@@ -29,12 +29,12 @@ void ofApp::setup()
     
     // Initial Allocation
     //
-    fluid.allocate(width, height + 58.0, 0.5);
+    fluid.allocate(width, height + 58.0, 0.3);
     
     // Seting the gravity set up & injecting the background image
     //
-    fluid.dissipation = 0.9638;
-    fluid.velocityDissipation = 0.9958;
+    fluid.dissipation = 0.9997;
+    fluid.velocityDissipation = 0.9995;
     
     
     fluid.setGravity(grav);
@@ -69,23 +69,23 @@ void ofApp::update()
     c.normalize();
     */
     
-    dir.x = ofRandomf() * 2.57;
+    dir.x = ofRandomf() * 2.47;
     pos.x = (width / 2.0) + (ofRandomf() * 0.85);
     
     rad += ofRandomf() * 0.004;
     temp += ofRandomf() * 0.0046;
-    den += ofRandomf() * 0.048;
+    den += ofRandomf() * 0.0005;
     
-    grav.y += ofRandomf() * 0.0004;
+    //grav.y += ofRandomf() * 0.0001;
     
-    fluid.setGravity(grav);
+    //fluid.setGravity(grav);
     
-    //fluid.addVelocity(fluid.getTexture(),ofRandomf() * 0.015);
+    //fluid.addVelocity(fluid.getTexture(),ofRandomf() * 0.0015);
     
-    fluid.velocityDissipation = ofRandomf() * 0.9998;
+    //fluid.velocityDissipation += ofRandomf() * 0.00001;
     
     if(isDrawS && !isPaused)
-        fluid.addTemporalForce(pos, dir, ofFloatColor(0.105, 0.09, 0.09), rad, temp, den);
+        fluid.addTemporalForce(pos, dir, ofFloatColor(1.20, 1.19, 1.19), rad, temp, den);
     
     if(isPaused)
         pCount += ofGetFrameRate() / 60;
