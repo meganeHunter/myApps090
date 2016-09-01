@@ -32,7 +32,7 @@ void ofApp::setup()
     bLearnBakground = true;
     showCvAnalysis = false;
     threshold = 20;
-    videoMode = 0;
+    videoMode = 5;
     
     windowS.x = ofGetWidth();
     windowS.y = ofGetHeight();
@@ -42,6 +42,8 @@ void ofApp::setup()
     
     //sacredA2E = ofPoint((windowS.x / 2) + 150, (windowS.y / 2) + 150);
     //sacredA2S = ofPoint((windowS.x / 2) - 70, (windowS.y / 2) - 70);
+    
+    isStatS = true;
 
 }
 
@@ -185,6 +187,7 @@ void ofApp::draw()
 //        }
         else
         {
+            //off
             ofPushStyle();
             ofSetColor(255, 0, 0);
             ofDrawBitmapString("OFF", windowS.x / 2, windowS.y / 2);
@@ -194,49 +197,52 @@ void ofApp::draw()
     }
     
     
-    ofPushStyle();
-    ofNoFill();
-    ofSetColor(255, 0, 0);
-    ofSetLineWidth(5.0);
-    ofDrawRectangle(sacredA1S.x, sacredA1S.y, sacredA1E.x - sacredA1S.x, sacredA1E.y - sacredA1S.y);
-    //ofDrawRectangle(sacredA2S.x, sacredA2S.y, sacredA2S.x - sacredA2E.x, sacredA2S.y - sacredA2E.y);
-    ofPopStyle();
+//    ofPushStyle();
+//    ofNoFill();
+//    ofSetColor(255, 0, 0);
+//    ofSetLineWidth(5.0);
+//    ofDrawRectangle(sacredA1S.x, sacredA1S.y, sacredA1E.x - sacredA1S.x, sacredA1E.y - sacredA1S.y);
+//    ofDrawRectangle(sacredA2S.x, sacredA2S.y, sacredA2S.x - sacredA2E.x, sacredA2S.y - sacredA2E.y);
+//    ofPopStyle();
     
-    
-    //ログと操作説明を表示
-    ofPushStyle();
-    ofSetColor(255, 0, 0);
-    ofDrawBitmapString("FPS: "+ofToString(ofGetFrameRate()), 20, 20);
-    ofDrawBitmapString("Threshold: "+ofToString(threshold), 20, 35);
-    ofDrawBitmapString("Number of Blobs: "+ofToString(contourFinder.nBlobs), 20, 50);
-    ofDrawBitmapString("[0] Show original video", 20, 65);
-    ofDrawBitmapString("[1] Show grayscale video", 20, 80);
-    ofDrawBitmapString("[2] Show captured background", 20, 95);
-    ofDrawBitmapString("[3] Show difference from background", 20, 110);
-    ofDrawBitmapString("[space] Captuer background", 20, 125);
-    ofDrawBitmapString("[a] Analysis on / off", 20, 140);
-    
-    ofDrawBitmapString("device0: " + vids[0].deviceName + " " +
-                       ofToString(vids[0].id, 2), windowS.x - 320, 65);
-    ofDrawBitmapString("device1: " + vids[1].deviceName + " " +
-                       ofToString(vids[1].id, 2), windowS.x - 320, 80);
-//    ofDrawBitmapString("device2: " + vids[2].deviceName + ofToString(vids[2].id, 1), windowS.x - 20, 95);
-//    ofDrawBitmapString("device3: " + vids[3].deviceName + ofToString(vids[3].id, 1), windowS.x - 20, 110);
-//    ofDrawBitmapString("device4: " + vids[4].deviceName + ofToString(vids[4].id, 1), windowS.x - 20, 125);
+    if (isStatS)
+    {
+        //ログと操作説明を表示
+        ofPushStyle();
+        ofSetColor(255, 0, 0);
+        ofDrawBitmapString("FPS: "+ofToString(ofGetFrameRate()), 20, 20);
+        ofDrawBitmapString("Threshold: "+ofToString(threshold), 20, 35);
+        ofDrawBitmapString("Number of Blobs: "+ofToString(contourFinder.nBlobs), 20, 50);
+        ofDrawBitmapString("[0] Show original video", 20, 65);
+        ofDrawBitmapString("[1] Show grayscale video", 20, 80);
+        ofDrawBitmapString("[2] Show captured background", 20, 95);
+        ofDrawBitmapString("[3] Show difference from background", 20, 110);
+        ofDrawBitmapString("[space] Captuer background", 20, 125);
+        ofDrawBitmapString("[a] Analysis on / off", 20, 140);
+        
+        ofDrawBitmapString("device0: " + vids[0].deviceName + " " +
+                           ofToString(vids[0].id, 2), windowS.x - 320, 65);
+        ofDrawBitmapString("device1: " + vids[1].deviceName + " " +
+                           ofToString(vids[1].id, 2), windowS.x - 320, 80);
+        //    ofDrawBitmapString("device2: " + vids[2].deviceName + ofToString(vids[2].id, 1), windowS.x - 20, 95);
+        //    ofDrawBitmapString("device3: " + vids[3].deviceName + ofToString(vids[3].id, 1), windowS.x - 20, 110);
+        //    ofDrawBitmapString("device4: " + vids[4].deviceName + ofToString(vids[4].id, 1), windowS.x - 20, 125);
+        
+        ofDrawBitmapString("cam: " + ofToString(vids[devID].deviceName,1), windowS.x - 320, 140);
+        ofDrawBitmapString("bC: x: " + ofToString(bC.x,1), windowS.x - 320, 165);
+        ofDrawBitmapString("bC: y: " + ofToString(bC.y,1), windowS.x - 320, 180);
+        ofDrawBitmapString("SacredA1: x: " + ofToString(sacredA1S.x,1)
+                           + " - " + ofToString(sacredA1E.x,1), windowS.x - 320, 195);
+        ofDrawBitmapString("SacredA1: y: " + ofToString(sacredA1S.y,1)
+                           + " - " + ofToString(sacredA1E.y,1), windowS.x - 320, 210);
+        //ofDrawBitmapString("SacredA2: x: " + ofToString(sacredA2S.x,1)
+        //                   + " - " + ofToString(sacredA2E.x,1), windowS.x - 320, 225);
+        //ofDrawBitmapString("SacredA2: y: " + ofToString(sacredA2S.y,1)
+        //                   + " - " + ofToString(sacredA2E.y,1), windowS.x - 320, 240);
+        
+        ofPopStyle();
 
-    ofDrawBitmapString("cam: " + ofToString(vids[devID].deviceName,1), windowS.x - 320, 140);
-    ofDrawBitmapString("bC: x: " + ofToString(bC.x,1), windowS.x - 320, 165);
-    ofDrawBitmapString("bC: y: " + ofToString(bC.y,1), windowS.x - 320, 180);
-    ofDrawBitmapString("SacredA1: x: " + ofToString(sacredA1S.x,1)
-                       + " - " + ofToString(sacredA1E.x,1), windowS.x - 320, 195);
-    ofDrawBitmapString("SacredA1: y: " + ofToString(sacredA1S.y,1)
-                       + " - " + ofToString(sacredA1E.y,1), windowS.x - 320, 210);
-    //ofDrawBitmapString("SacredA2: x: " + ofToString(sacredA2S.x,1)
-    //                   + " - " + ofToString(sacredA2E.x,1), windowS.x - 320, 225);
-    //ofDrawBitmapString("SacredA2: y: " + ofToString(sacredA2S.y,1)
-    //                   + " - " + ofToString(sacredA2E.y,1), windowS.x - 320, 240);
-    
-    ofPopStyle();
+    }
     
 }
 
@@ -267,13 +273,17 @@ void ofApp::keyPressed(int key)
             break;
             
         case 'x':
-            //2値化した差分映像
+            //映像非表示
             videoMode = 5;
             break;
             
         case 'a':
             //解析結果の表示の on / off
             showCvAnalysis ? showCvAnalysis=false : showCvAnalysis=true;
+            break;
+            
+        case 's':
+            isStatS ? isStatS = false : isStatS = true;
             break;
             
         case 'f':

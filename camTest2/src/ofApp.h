@@ -52,6 +52,8 @@ class ofApp : public ofBaseApp{
     
     int i;
     
+    bool isStatS;
+    
     ofPoint sacredA1S, sacredA1E;
     ofPoint sacredA2S, sacredA2E;
     ofPoint bC;
